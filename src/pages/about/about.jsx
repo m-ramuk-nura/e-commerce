@@ -1,74 +1,197 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function About() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState(location.state || { name: "Not provided", email: "Not provided", phone: "Not provided" });
+  const [datas, setDatas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ user_id: "", user_name: "", phone: "", email: "" });
 
-  const handleDelete = () => {
-    setUserData({ name: "Not provided", email: "Not provided", phone: "Not provided" });
+  // ✅ **Fetch user data from "users" table**
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/data")
+      .then((response) => setDatas(response.data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  // ✅ **Delete user function**
+  const deleteUser = (userId) => {
+    axios.delete(`http://localhost:4000/api/data/${userId}`)
+      .then(() => {
+        alert("User deleted successfully!");
+        setDatas(prevDatas => prevDatas.filter(users => users.user_id !== userId));
+      })
+      .catch((error) => console.error("Error deleting user:", error));
   };
 
-  const containerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#000", // Black background
-    padding: "20px",
+  // ✅ **Open edit modal with selected user data**
+  const openEditModal = (users) => {
+    setCurrentUser(users);
+    setShowModal(true);
   };
 
-  const cardStyle = {
-    backgroundColor: "#222", // Dark gray for contrast
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
-    width: "320px",
-    textAlign: "left",
-    color: "white",
+  // ✅ **Handle input change inside modal**
+  const handleChange = (e) => {
+    setCurrentUser({ ...currentUser, [e.target.name]: e.target.value });
   };
 
-  const labelStyle = {
-    fontWeight: "bold",
-    display: "block",
-    marginBottom: "5px",
-    color: "white",
-  };
+  // ✅ **Handle update user**
+  const handleUpdate = (e) => {
+    e.preventDefault();
 
-  const buttonContainerStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "320px",
-    marginTop: "15px",
-  };
-
-  const buttonStyle = {
-    padding: "10px",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontSize: "16px",
-    flex: "1",
-    margin: "5px",
-  };
+    axios.put(`http://localhost:4000/api/update/${currentUser.user_id}`, {
+      user_name: currentUser.user_name,
+      phone: currentUser.phone,
+      email: currentUser.email
+  })
+    .then(() => {
+        alert("User updated successfully!");
+        setDatas(prevDatas => prevDatas.map(users =>
+            users.user_id === currentUser.user_id ? { ...users, ...currentUser } : users
+        ));
+        setShowModal(false); // Close modal
+    })
+    .catch((error) => {
+        console.error("Error updating user:", error.response ? error.response.data : error.message);
+        alert("Error updating user. Please try again.");
+    });
+};
 
   return (
-    <div style={containerStyle}>
-      <div style={cardStyle}>
-        <h1>About Page</h1>
-        <p><span style={labelStyle}>Name:</span> {userData.name}</p>
-        <p><span style={labelStyle}>Email:</span> {userData.email}</p>
-        <p><span style={labelStyle}>Phone Number:</span> {userData.phone}</p>
-      </div>
-      <div style={buttonContainerStyle}>
-        <button onClick={handleDelete} style={{ ...buttonStyle, backgroundColor: "#ff4d4d" }}>Delete</button>
-        <button onClick={() => navigate("/contact")} style={{ ...buttonStyle, backgroundColor: "#007bff" }}>Back to Contact</button>
-      </div>
+    <div>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {datas.map(users => (
+            <tr key={users.user_id}>
+              <td>{users.user_id}</td>
+              <td>{users.user_name}</td>
+              <td>{users.phone}</td>
+              <td>{users.email}</td>
+              <td>
+                <button 
+                  style={{ backgroundColor: 'cyan' }} 
+                  onClick={() => openEditModal(users)}
+                >
+                  Edit
+                </button>
+                <button 
+                  style={{ backgroundColor: 'red', marginLeft: '5px' }} 
+                  onClick={() => deleteUser(users.user_id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* ✅ Edit User Modal */}
+      {showModal && (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h2>Edit User</h2>
+            <form onSubmit={handleUpdate}>
+              <label>Name:</label>
+              <input
+                type="text"
+                name="user_name"
+                value={currentUser.user_name}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+              <br />
+              <label>Phone:</label>
+              <input
+                type="text"
+                name="phone"
+                value={currentUser.phone}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+              <br />
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={currentUser.email}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+              <br />
+              <button type="submit" style={buttonStyle}>Update</button>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                style={cancelButtonStyle}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+// ✅ Styles for modal and inputs
+const modalStyle = {
+  position: "fixed",
+  top: "0",
+  left: "0",
+  right: "0",
+  bottom: "0",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: "1000"
+};
+
+const modalContentStyle = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "5px",
+  width: "300px"
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px",
+  margin: "10px 0",
+  borderRadius: "5px",
+  border: "1px solid #ccc"
+};
+
+const buttonStyle = {
+  backgroundColor: "#007bff",
+  color: "white",
+  border: "none",
+  borderRadius: "5px",
+  padding: "10px 20px",
+  cursor: "pointer"
+};
+
+const cancelButtonStyle = {
+  backgroundColor: "#ccc",
+  color: "black",
+  border: "none",
+  borderRadius: "5px",
+  padding: "10px 20px",
+  marginLeft: "10px",
+  cursor: "pointer"
+};
 
 export default About;
