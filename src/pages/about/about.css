@@ -1,0 +1,252 @@
+/* General styles (keep these) */
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* Table styles (for desktop - keep these, but adjust as needed) */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 600px;
+  }
+  
+  .user-table th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  
+  .user-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+  }
+  
+  /* Button styles (keep these) */
+  .edit-btn,
+  .delete-btn {
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.2s ease-in-out;
+    white-space: nowrap;
+  }
+  
+  .edit-btn {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: red;
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #138496;
+  }
+  
+  .delete-btn:hover {
+    background-color: darkred;
+  }
+  
+  /* Modal styles (keep these) */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+  }
+  
+  .modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .update-btn,
+  .cancel-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-basis: calc(50% - 5px);
+    margin: 5px;
+    box-sizing: border-box;
+  }
+  
+  .update-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .cancel-btn {
+    background-color: #ccc;
+    color: black;
+  }
+  
+  .update-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #aaa;
+  }
+  
+  /* Styles for mobile cards */
+  .user-card-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px; /* Limit card width */
+  }
+  
+  .user-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .user-card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .user-card-body p {
+    margin-bottom: 5px;
+  }
+  
+  .user-card-body strong {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .user-card-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table-container {
+      display: none; /* Hide the table on small screens */
+    }
+    /*Show card list by default */
+    .user-card-list {
+      display: flex; /* Make sure the card list is visible */
+    }
+  }
+  
+  /* Desktop styles */
+  @media (min-width: 769px) {
+    .user-card-list {
+      display: none; /* Hide card list on larger screens */
+    }
+  
+    .table-container {
+      display: block; /* Show the table on larger screens */
+    }
+  }
+  
+  /* General Mobile Styles */
+  @media (max-width: 600px) {
+    .about-container {
+      padding: 10px;
+    }
+  
+    .user-card {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+  
+    .user-card-header {
+      font-size: 1.1rem;
+    }
+  
+    .user-card-body p {
+      font-size: 0.9rem;
+    }
+  
+    .edit-btn,
+    .delete-btn {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  }
+  
+  /* Very Small Screens */
+  @media (max-width: 480px) {
+    .user-card-header {
+      font-size: 1rem;
+    }
+  
+    .user-card-actions {
+      flex-direction: column;
+    }
+  
+    .edit-btn,
+    .delete-btn {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }
+  

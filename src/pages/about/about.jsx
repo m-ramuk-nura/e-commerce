@@ -1,103 +1,154 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./about.css"; // Import the external CSS file
 
 function About() {
   const [datas, setDatas] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ user_id: "", user_name: "", phone: "", email: "" });
+  const [currentUser, setCurrentUser] = useState({
+    user_id: "",
+    user_name: "",
+    phone: "",
+    email: "",
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Initial check
 
-  // ✅ **Fetch user data from "users" table**
   useEffect(() => {
-    axios.get("http://localhost:4000/api/data")
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize); // Listen for resize events
+
+    axios
+      .get("http://localhost:4000/api/data")
       .then((response) => setDatas(response.data))
       .catch((error) => console.error("Error fetching data:", error));
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Clean up listener
+    };
   }, []);
 
-  // ✅ **Delete user function**
   const deleteUser = (userId) => {
-    axios.delete(`http://localhost:4000/api/data/${userId}`)
+    axios
+      .delete(`http://localhost:4000/api/data/${userId}`)
       .then(() => {
         alert("User deleted successfully!");
-        setDatas(prevDatas => prevDatas.filter(users => users.user_id !== userId));
+        setDatas((prevDatas) =>
+          prevDatas.filter((users) => users.user_id !== userId)
+        );
       })
       .catch((error) => console.error("Error deleting user:", error));
   };
 
-  // ✅ **Open edit modal with selected user data**
   const openEditModal = (users) => {
     setCurrentUser(users);
     setShowModal(true);
   };
 
-  // ✅ **Handle input change inside modal**
   const handleChange = (e) => {
     setCurrentUser({ ...currentUser, [e.target.name]: e.target.value });
   };
 
-  // ✅ **Handle update user**
   const handleUpdate = (e) => {
     e.preventDefault();
-
-    axios.put(`http://localhost:4000/api/update/${currentUser.user_id}`, {
-      user_name: currentUser.user_name,
-      phone: currentUser.phone,
-      email: currentUser.email
-  })
-    .then(() => {
+    axios
+      .put(`http://localhost:4000/api/update/${currentUser.user_id}`, {
+        user_name: currentUser.user_name,
+        phone: currentUser.phone,
+        email: currentUser.email,
+      })
+      .then(() => {
         alert("User updated successfully!");
-        setDatas(prevDatas => prevDatas.map(users =>
-            users.user_id === currentUser.user_id ? { ...users, ...currentUser } : users
-        ));
-        setShowModal(false); // Close modal
-    })
-    .catch((error) => {
-        console.error("Error updating user:", error.response ? error.response.data : error.message);
+        setDatas((prevDatas) =>
+          prevDatas.map((users) =>
+            users.user_id === currentUser.user_id
+              ? { ...users, ...currentUser }
+              : users
+          )
+        );
+        setShowModal(false);
+      })
+      .catch((error) => {
+        console.error(
+          "Error updating user:",
+          error.response ? error.response.data : error.message
+        );
         alert("Error updating user. Please try again.");
-    });
-};
+      });
+  };
 
   return (
-    <div>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {datas.map(users => (
-            <tr key={users.user_id}>
-              <td>{users.user_id}</td>
-              <td>{users.user_name}</td>
-              <td>{users.phone}</td>
-              <td>{users.email}</td>
-              <td>
-                <button 
-                  style={{ backgroundColor: 'cyan' }} 
-                  onClick={() => openEditModal(users)}
-                >
+    <div className="about-container">
+      {isMobile ? (
+        // Mobile View: Display as a list of cards
+        <div className="user-card-list">
+          {datas.map((users) => (
+            <div className="user-card" key={users.user_id}>
+              <div className="user-card-header">
+                <strong>{users.user_name}</strong>
+              </div>
+              <div className="user-card-body">
+                <p>
+                  <strong>User ID:</strong> {users.user_id}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {users.phone}
+                </p>
+                <p>
+                  <strong>Email:</strong> {users.email}
+                </p>
+              </div>
+              <div className="user-card-actions">
+                <button className="edit-btn" onClick={() => openEditModal(users)}>
                   Edit
                 </button>
-                <button 
-                  style={{ backgroundColor: 'red', marginLeft: '5px' }} 
-                  onClick={() => deleteUser(users.user_id)}
-                >
+                <button className="delete-btn" onClick={() => deleteUser(users.user_id)}>
                   Delete
                 </button>
-              </td>
-            </tr>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      ) : (
+        // Desktop View: Display as a table
+        <div className="table-container">
+          <table className="user-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {datas.map((users) => (
+                <tr key={users.user_id}>
+                  <td>{users.user_id}</td>
+                  <td>{users.user_name}</td>
+                  <td>{users.phone}</td>
+                  <td>{users.email}</td>
+                  <td>
+                    <button className="edit-btn" onClick={() => openEditModal(users)}>
+                      Edit
+                    </button>
+                    <button className="delete-btn" onClick={() => deleteUser(users.user_id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-      {/* ✅ Edit User Modal */}
       {showModal && (
-        <div style={modalStyle}>
-          <div style={modalContentStyle}>
+        <div className="modal">
+          <div className="modal-content">
             <h2>Edit User</h2>
             <form onSubmit={handleUpdate}>
               <label>Name:</label>
@@ -107,9 +158,7 @@ function About() {
                 value={currentUser.user_name}
                 onChange={handleChange}
                 required
-                style={inputStyle}
               />
-              <br />
               <label>Phone:</label>
               <input
                 type="text"
@@ -117,9 +166,7 @@ function About() {
                 value={currentUser.phone}
                 onChange={handleChange}
                 required
-                style={inputStyle}
               />
-              <br />
               <label>Email:</label>
               <input
                 type="email"
@@ -127,17 +174,19 @@ function About() {
                 value={currentUser.email}
                 onChange={handleChange}
                 required
-                style={inputStyle}
               />
-              <br />
-              <button type="submit" style={buttonStyle}>Update</button>
-              <button
-                type="button"
-                onClick={() => setShowModal(false)}
-                style={cancelButtonStyle}
-              >
-                Cancel
-              </button>
+              <div className="modal-buttons">
+                <button type="submit" className="update-btn">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -145,53 +194,5 @@ function About() {
     </div>
   );
 }
-
-// ✅ Styles for modal and inputs
-const modalStyle = {
-  position: "fixed",
-  top: "0",
-  left: "0",
-  right: "0",
-  bottom: "0",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: "1000"
-};
-
-const modalContentStyle = {
-  backgroundColor: "white",
-  padding: "20px",
-  borderRadius: "5px",
-  width: "300px"
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  margin: "10px 0",
-  borderRadius: "5px",
-  border: "1px solid #ccc"
-};
-
-const buttonStyle = {
-  backgroundColor: "#007bff",
-  color: "white",
-  border: "none",
-  borderRadius: "5px",
-  padding: "10px 20px",
-  cursor: "pointer"
-};
-
-const cancelButtonStyle = {
-  backgroundColor: "#ccc",
-  color: "black",
-  border: "none",
-  borderRadius: "5px",
-  padding: "10px 20px",
-  marginLeft: "10px",
-  cursor: "pointer"
-};
 
 export default About;

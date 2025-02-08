@@ -1,0 +1,322 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .landing-page {
+    overflow: hidden;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(to right, #007bff, #00a2e8);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-content {
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 0 15px;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  .cta-button-box {
+    margin-top: 30px;
+  }
+  
+  .cta-button {
+    background-color: #fff;
+    color: #007bff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .cta-button:hover {
+    background-color: #f0f0f0;
+    color: #0056b3;
+  }
+  
+  /* Wave Effect */
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,56.5C112.2,79.9,260.5,100,429.8,100 C599.1,100,761.2,82.2,920.5,56.5C1079.8,30.8,1199,0,1199,0L0,0Z' fill='%23f4f4f4'/%3E%3C/svg%3E")
+      repeat-x bottom;
+    z-index: 1;
+    background-size: 1200px auto;
+  }
+  
+  /* Featured Products Section */
+  .featured-products {
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .featured-products h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #007bff;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .product-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #222;
+  }
+  
+  .product-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .product-image-box {
+    margin-top: 20px;
+  }
+  
+  /* Why Choose Us Section */
+  .why-choose-us {
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .why-choose-us h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #007bff;
+  }
+  
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .reason {
+    padding: 20px;
+    text-align: left;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reason:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .reason strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #007bff;
+  }
+  
+  /* Shop with Confidence Section (Reverted to Previous Styling) */
+  .shop-with-confidence {
+    padding: 70px 20px;
+    text-align: center;
+    background-color: #f9f9f9; /*Kept from the previous one. */
+  }
+  
+  .shop-with-confidence h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #007bff;
+  }
+  
+  .confidence-points {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .confidence-item {
+    text-align: left;
+  }
+  
+  .confidence-item strong {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  /* Footer */
+  .main-footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .main-footer p {
+    margin: 5px 0;
+  }
+  
+  /* Image Styles */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+  
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  
+    .featured-products h2,
+    .why-choose-us h2,
+    .shop-with-confidence h2 {
+      font-size: 2rem;
+    }
+  
+    .confidence-points {
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+  
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .reasons-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .hero-section {
+      padding: 60px 10px;
+    }
+  
+    .hero-content {
+      padding: 0 10px;
+    }
+  
+    .featured-products {
+      padding: 40px 10px;
+    }
+  
+    .why-choose-us {
+      padding: 40px 10px;
+    }
+  
+    .shop-with-confidence {
+      padding: 30px 10px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+  
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+  
+    .product-grid {
+      padding: 0 10px;
+    }
+  
+    .reasons-grid {
+      padding: 0 10px;
+    }
+  
+    .confidence-points {
+      padding: 0 10px;
+    }
+  }
+  
+  /* Add a very small screen size adjustment */
+  @media (max-width: 320px) {
+    .hero-title {
+      font-size: 20px;
+    }
+  
+    .hero-subtitle {
+      font-size: 0.8rem;
+    }
+  
+    .product-card {
+      padding: 15px;
+    }
+  
+    .reason {
+      padding: 15px;
+    }
+  }
+  

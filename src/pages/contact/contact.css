@@ -1,10 +1,122 @@
+/* Center the page content */
 .contact-page {
-    font-size: 40px
-}
-
-
-@media (max-width: 768px) {
-    .contact-page {
-        
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: #f8f9fa; /* Softer background */
+  }
+  
+  /* Form container */
+  .contact-box {
+    background: #ffffff; /* White background */
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Smooth scaling effect on hover */
+  .contact-box:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Form heading */
+  .contact-box h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* Input fields */
+  .contact-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: 0.3s;
+    background-color: #f9f9f9;
+  }
+  
+  /* Input focus effect */
+  .contact-box input:focus {
+    border-color: #71bbb2;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(113, 187, 178, 0.5);
+    background: white;
+  }
+  
+  /* Submit button */
+  .submit-button {
+    width: 100%; /* Make the button full width */
+    max-width: 325px; /* Added max-width */
+    padding: 12px;
+    background: #1d3b55;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background: #152c44;
+  }
+  
+  /* Success and error messages */
+  .contact-box div {
+    font-size: 1rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .contact-box {
+      width: 90%;
+      padding: 2rem;
     }
-}
+  
+    .contact-box h1 {
+      font-size: 1.6rem;
+    }
+  
+    .submit-button {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .contact-box {
+      width: 95%;
+      padding: 1.5rem;
+    }
+  
+    .contact-box h1 {
+      font-size: 1.4rem;
+    }
+  
+    .submit-button {
+      font-size: 0.85rem;
+      max-width: 100%; /* Make the button full width */
+    }
+  
+    .contact-page {
+      padding: 10px; /* Adjust overall padding */
+    }
+  }
+  
+  /* Add a very small screen size adjustment */
+  @media (max-width: 320px) {
+    .contact-box {
+      padding: 1rem;
+    }
+  }
+  

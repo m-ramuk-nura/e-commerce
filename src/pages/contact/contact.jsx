@@ -46,24 +46,24 @@ function Contact() {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px", color: "white", backgroundColor: "#000", height: "100vh" }} className="contact-page">
-      <h1>Contact Page</h1>
+    <div className="contact-page">
+       <div className="contact-box">
+      <h1>Enter Your Details</h1>
       {!submitted ? (
         <form onSubmit={handleSubmit} style={{ maxWidth: "300px", margin: "auto" }}>
-          <input type="text" name="user_name" placeholder="Name" onChange={handleChange} required style={inputStyle} />
-          <input type="email" name="email" placeholder="Email" onChange={handleChange} required style={inputStyle} />
-          <input type="text" name="phone" placeholder="Phone" onChange={handleChange} required style={inputStyle} />
+          <input type="text" name="user_name" placeholder="Name" onChange={handleChange} required  />
+          <input type="email" name="email" placeholder="Email" onChange={handleChange} required  />
+          <input type="text" name="phone" placeholder="Phone" onChange={handleChange} required />
           {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
-          <button type="submit" style={buttonStyle}>Submit</button>
+          <button type="submit" className="submit-button">Submit</button>
         </form>
       ) : (
         <div style={{ color: "green", marginTop: "20px" }}>{successMessage}</div>  
       )}
     </div>
+    </div>
   );
 }
 
-const inputStyle = { width: "100%", padding: "10px", margin: "10px 0", borderRadius: "5px", border: "1px solid #fff", backgroundColor: "#333", color: "white" };
-const buttonStyle = { width: "100%", padding: "10px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" };
 
 export default Contact;

@@ -1,0 +1,52 @@
+/* Navbar.css */
+nav {
+    background-color: #27445D;
+    padding: 10px 20px;
+    width: 100%;
+  }
+  
+  ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Limits the width */
+    margin: auto; /* Centers the navbar */
+  }
+  
+  li {
+    margin: 0 15px;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    nav {
+      padding: 10px;
+    }
+  
+    ul {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    li {
+      margin: 10px 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    a {
+      font-size: 16px;
+      padding: 8px;
+    }
+  }
+  
